@@ -44,3 +44,17 @@ html, body, #root {
 .read-the-docs {
   color: #888;
 }
+
+.role-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1001;
+  padding: 10px 15px;
+  background-color: #40e0d0;
+  color: #121e1e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}

@@ -139,3 +139,17 @@ html, body {
   color: #40e0d0;
   font-weight: bold;
 }
+
+.placeholder-content {
+  background-color: #121e1e;
+  padding: 40px 25px;
+  border-radius: 12px;
+  text-align: center;
+  color: #a0a0a0;
+  border: 2px dashed #2a3a3a;
+}
+
+.placeholder-content h3 {
+  margin: 0 0 10px 0;
+  color: #ffffff;
+}

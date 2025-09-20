@@ -1,25 +1,52 @@
-import { Routes, Route } from 'react-router-dom';
-import './App.css'
+import React, { useState } from 'react';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import './App.css';
 
-// Import your page components
-import Home from './pages/Home';
-import About from './pages/About';
+// Layout Component
+import MainLayout from './components/MainLayout';
+
+// Page Components from their new locations
+import Dashboard from './pages/shared/Dashboard';
+import Settings from './pages/shared/Settings';
+import CreateDataset from './pages/contributor/CreateDataset';
+import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
-import Dashboard from './pages/Dashboard';
-import CreateDataset from './pages/CreateDataset';
-import Explore from './pages/Explore'; // Import the new page
 
 function App() {
+  const [role, setRole] = useState('contributor');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const toggleRole = () => {
+    const newRole = role === 'contributor' ? 'developer' : 'contributor';
+    const currentPath = location.pathname;
+
+    if (currentPath === '/create' && newRole === 'developer') {
+      navigate('/dashboard');
+    } else if (currentPath === '/explore' && newRole === 'contributor') {
+      navigate('/dashboard');
+    }
+
+    setRole(newRole);
+  };
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/create" element={<CreateDataset />} />
-      <Route path="/explore" element={<Explore />} /> {/* Add the new route */}
-      {/* A catch-all route for 404 pages */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <button onClick={toggleRole} className="role-toggle-btn">
+        Switch to {role === 'contributor' ? 'Developer' : 'Contributor'} View
+      </button>
+
+      <Routes>
+        <Route path="/" element={<MainLayout role={role} />}>
+          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="explore" element={<Explore />} />
+          <Route path="create" element={<CreateDataset />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

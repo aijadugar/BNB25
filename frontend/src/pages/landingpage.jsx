@@ -12,12 +12,25 @@ const LandingPage = ({ onRoleSelect }) => (
         <div className="logo-square">S</div>
         <span className="logo-text">Synapse Ledger</span>
       </div>
-      <div className="nav-links">
-        <Link to="/" className="nav-link">Overview</Link>
-        <Link to="/features" className="nav-link">Features</Link>
-        <Link to="/docs" className="nav-link">Resources</Link>
-        <Link to="/community" className="nav-link">Community</Link>
-      </div>
+     <div className="nav-links">
+  {/* Other links... */}
+  <button
+    className="nav-link"
+    onClick={() => {
+      document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+    }}
+  >
+    Features
+  </button>
+  <button
+    className="nav-link"
+    onClick={() => {
+      document.getElementById("footer")?.scrollIntoView({ behavior: "smooth" });
+    }}
+  >
+    Contact us
+  </button>
+</div>
       {/* The nav-actions section with the "Sign in" button has been removed */}
     </nav>
 
@@ -87,6 +100,11 @@ const LandingPage = ({ onRoleSelect }) => (
     </section>
 
     {/* Key Features Section */}
+   
+<section className="section" id="features">
+  {/* ...features content... */}
+</section>
+
     <section className="section">
       <h2>Key Features</h2>
       <div className="features-row">
@@ -122,6 +140,10 @@ const LandingPage = ({ onRoleSelect }) => (
     </section>
 
     {/* Footer */}
+    // Footer Section
+<footer className="landing-footer" id="footer">
+  {/* ...footer content... */}
+</footer>
     <footer className="landing-footer">
       <div className="footer-links">
         <Link to="/overview">Overview</Link>

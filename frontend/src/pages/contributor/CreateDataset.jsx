@@ -78,17 +78,18 @@ function CreateDataset() {
               <div className="form-group">
                 <label>Data Type</label>
                 <select value={dataType} onChange={e => setDataType(e.target.value)}>
-                  <option>CSV</option>
-                  <option>Image</option>
                   <option>Text</option>
+                  <option>Image</option>
+                  <option>Audio</option>
+                  <option>Code</option>
                 </select>
               </div>
               <div className="form-group">
                 <label>Category</label>
                 <select value={category} onChange={e => setCategory(e.target.value)}>
                   <option>Finance</option>
-                  <option>Healthcare</option>
-                  <option>Retail</option>
+                  <option>Nature</option>
+                  <option>College</option>
                 </select>
               </div>
             </div>

@@ -2,11 +2,11 @@ import React from 'react';
 import './ContributionsTable.css';
 
 const contributions = [
-  { id: '#12345', name: 'Financial Data', category: 'Finance', cid: 'QmWx123...', royalties: '$500.00' },
-  { id: '#67890', name: 'Medical Records', category: 'Healthcare', cid: 'QmYt456...', royalties: '$750.00' },
-  { id: '#11223', name: 'Retail Sales Data', category: 'Retail', cid: 'QmZp789...', royalties: '$300.00' },
-  { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00' },
-  { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00' },
+  { id: '#12345', name: 'Financial Data', category: 'Finance', cid: 'QmWx123...', royalties: '$500.00', ratings: '★★★★☆' },
+  { id: '#67890', name: 'Medical Records', category: 'Healthcare', cid: 'QmYt456...', royalties: '$750.00', ratings: '★★★★★' },
+  { id: '#11223', name: 'Retail Sales Data', category: 'Retail', cid: 'QmZp789...', royalties: '$300.00', ratings: '★★★☆☆' },
+  { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00', ratings: '★★★★☆' },
+  { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00', ratings: '★★★★★' },
 ];
 // To test the empty state, comment the line above and uncomment the line below
 // const contributions = [];
@@ -23,6 +23,7 @@ const ContributionsTable = () => {
             <div>Category</div>
             <div>CID</div>
             <div>Royalties Earned</div>
+            <div>Ratings</div>
           </div>
           {contributions.map((item) => (
             <div className="table-row" key={item.id}>
@@ -31,6 +32,7 @@ const ContributionsTable = () => {
               <div>{item.category}</div>
               <div>{item.cid}</div>
               <div className="royalties">{item.royalties}</div>
+              <div className="ratings">{item.ratings}</div>
             </div>
           ))}
         </div>

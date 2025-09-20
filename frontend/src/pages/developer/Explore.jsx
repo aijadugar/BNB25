@@ -10,19 +10,31 @@ const sampleData = [
     id: 1,
     title: 'Corporate Bond Data Q1 2023',
     category: 'Financial Data',
-    dataType: 'Structured',
+    dataType: 'Image',
     size: '1.2 GB',
     contributors: 25,
-    price: '500 SYN',
+    price: '$50',
+    rating: 4,
+    poolID: 2133252341,
+    "tendermintResponse": {
+    hash: "bdco8aboe8ycbowa8c7bao837cbo387wc",
+    height: 3213
+    }
   },
   {
     id: 2,
     title: 'Clinical Trial Patient Demographics',
     category: 'Healthcare Data',
-    dataType: 'Anonymized PII',
+    dataType: 'CSV',
     size: '800 MB',
     contributors: 12,
-    price: '750 SYN',
+    price: '$22.5',
+    rating: 5,
+    poolID: 2133252341,
+    "tendermintResponse": {
+    hash: "bdco8aboe8ycbowa8c7bao837cbo387wc",
+    height: 3213
+    }
   },
   {
     id: 3,
@@ -31,7 +43,13 @@ const sampleData = [
     dataType: 'Text',
     size: '2.5 GB',
     contributors: '150+',
-    price: '300 SYN',
+    price: '$80',
+    rating: 2,
+    poolID: 2133252341,
+    "tendermintResponse": {
+    hash: "bdco8aboe8ycbowa8c7bao837cbo387wc",
+    height: 3213
+    }
   },
 ];
 

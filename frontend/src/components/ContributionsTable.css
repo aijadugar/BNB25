@@ -12,10 +12,12 @@
 .contributions-table .table-header,
 .contributions-table .table-row {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+  /* Changed from 5 to 6 columns */
+  grid-template-columns: 1fr 2fr 1fr 1fr 1.5fr 1fr;
   gap: 15px;
   padding: 15px 10px;
   border-bottom: 1px solid #2a3a3a;
+  align-items: center;
 }
 
 .contributions-table .table-header {
@@ -32,16 +34,15 @@
   font-weight: bold;
 }
 
-.no-contributions {
-  text-align: center;
-  padding: 40px 20px;
-  color: #a0a0a0;
-  border: 2px dashed #2a3a3a;
-  border-radius: 8px;
-  margin-top: 20px;
+.ratings {
+  color: #ffc107; /* A gold/yellow color for stars */
+  font-size: 1.1rem;
 }
 
-.no-contributions p {
-  margin: 5px 0;
-  font-size: 1rem;
+.no-contributions {
+  text-align: center;
+  padding: 40px;
+  color: #a0a0a0;
+  border: 2px dashed #2a3a3a;
+  border-radius: 12px;
 }

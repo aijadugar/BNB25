@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom'; // Import hook
 import DashboardHeader from '../../components/DashboardHeader';
 import DatasetCard from '../../components/DatasetCard';
 import './Explore.css';
@@ -35,9 +36,11 @@ const sampleData = [
 ];
 
 const Explore = () => {
+  const { onLogout } = useOutletContext(); // Get onLogout from context
+
   return (
     <>
-      <DashboardHeader title="Explore Data Pools" />
+      <DashboardHeader title="Explore Data Pools" onLogout={onLogout} />
 
       <div className="filter-bar">
         <input type="text" placeholder="Search for datasets..." className="search-input" />

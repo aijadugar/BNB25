@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
+import { useOutletContext } from 'react-router-dom'; // Import hook
 import DashboardHeader from '../../components/DashboardHeader';
 import './CreateDataset.css';
 
 function CreateDataset() {
+  const { onLogout } = useOutletContext(); // Get onLogout from context
   const [datasetName, setDatasetName] = useState('');
   const [dataType, setDataType] = useState('CSV');
   const [category, setCategory] = useState('Finance');
@@ -61,7 +63,7 @@ function CreateDataset() {
 
   return (
     <>
-      <DashboardHeader title="Upload Dataset" />
+      <DashboardHeader title="Upload Dataset" onLogout={onLogout} />
       <section className="form-section">
         <div className="form-container">
           <p className="form-description">Share your valuable data with the community and earn royalties.</p>

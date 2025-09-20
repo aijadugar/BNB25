@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Sidebar from '../components/Sidebar'; // Import the Sidebar component
 import './CreateDataset.css';
 
 function CreateDataset() {
@@ -33,16 +34,7 @@ function CreateDataset() {
 
   return (
     <div className="dashboard-container">
-      <aside className="sidebar">
-        <h1 className="logo">Synapse Ledger</h1>
-        <nav className="sidebar-nav">
-          <a href="#">Home</a>
-          <a href="#">Explore</a>
-          <a href="#" className="active">Create</a>
-          <a href="#">Dashboard</a>
-          <a href="#">Settings</a>
-        </nav>
-      </aside>
+      <Sidebar /> {/* Use the Sidebar component */}
 
       <main className="main-content">
         <header className="dashboard-header">

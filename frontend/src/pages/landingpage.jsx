@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { FaDatabase, FaCoins, FaShieldAlt, FaFingerprint, FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 import "./LandingPage.css";
 
-const LandingPage = () => (
+// Accept the onRoleSelect function as a prop
+const LandingPage = ({ onRoleSelect }) => (
   <div className="landing-root">
     {/* Navbar */}
     <nav className="landing-header">
@@ -17,7 +18,6 @@ const LandingPage = () => (
         <Link to="/docs" className="nav-link">Resources</Link>
         <Link to="/community" className="nav-link">Community</Link>
       </div>
-      {/* Removed top right buttons */}
     </nav>
 
     {/* Hero Section */}
@@ -28,8 +28,9 @@ const LandingPage = () => (
           Synapse Ledger is a decentralized project that enables contributors to stake their data and earn rewards, while developers can access high-quality, verified data for their applications.
         </p>
         <div className="hero-buttons">
-          <Link to="/contribute" className="primary-btn">Contribute Data</Link>
-          <Link to="/explore" className="secondary-btn">Explore Pools</Link>
+          {/* Changed from Link to button with onClick handler */}
+          <button onClick={() => onRoleSelect('contributor')} className="primary-btn">Contribute Data</button>
+          <button onClick={() => onRoleSelect('developer')} className="secondary-btn">Explore Pools</button>
         </div>
       </div>
       <div className="hero-image">
@@ -113,8 +114,9 @@ const LandingPage = () => (
         Be part of the future of decentralized data. Contribute your data or explore data pools to build innovative applications.
       </p>
       <div className="cta-buttons">
-        <Link to="/contribute" className="cta-btn">Contribute Data</Link>
-        <Link to="/explore" className="cta-btn cta-btn-alt">Explore Pools</Link>
+        {/* Changed from Link to button with onClick handler */}
+        <button onClick={() => onRoleSelect('contributor')} className="cta-btn">Contribute Data</button>
+        <button onClick={() => onRoleSelect('developer')} className="cta-btn cta-btn-alt">Explore Pools</button>
       </div>
     </section>
 

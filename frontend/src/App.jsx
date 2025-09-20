@@ -1,54 +1,48 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 
 // Layout Component
 import MainLayout from './components/MainLayout';
 
-// Page Components from their new locations
+// Page Components
+import LandingPage from './pages/landingpage';
 import Dashboard from './pages/shared/Dashboard';
 import Settings from './pages/shared/Settings';
 import CreateDataset from './pages/contributor/CreateDataset';
 import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
-import LandingPage from './pages/landingpage';
 
 function App() {
-  const [role, setRole] = useState('contributor');
-  const location = useLocation();
+  const [role, setRole] = useState('contributor'); // Default role
   const navigate = useNavigate();
 
-  const toggleRole = () => {
-    const newRole = role === 'contributor' ? 'developer' : 'contributor';
-    const currentPath = location.pathname;
-
-    if (currentPath === '/create' && newRole === 'developer') {
-      navigate('/dashboard');
-    } else if (currentPath === '/explore' && newRole === 'contributor') {
-      navigate('/dashboard');
+  // This function will be called from the landing page
+  const handleRoleSelect = (selectedRole) => {
+    setRole(selectedRole);
+    if (selectedRole === 'contributor') {
+      navigate('/create'); // Navigate to the contributor's starting page
+    } else if (selectedRole === 'developer') {
+      navigate('/explore'); // Navigate to the developer's starting page
     }
-
-    setRole(newRole);
   };
 
   return (
-    <>
-      <button onClick={toggleRole} className="role-toggle-btn">
-        Switch to {role === 'contributor' ? 'Developer' : 'Contributor'} View
-      </button>
+    <Routes>
+      {/* Pass the role selection handler to the LandingPage */}
+      <Route path="/" element={<LandingPage onRoleSelect={handleRoleSelect} />} />
 
-      <Routes>
-        <Route path="/" element={<MainLayout role={role} />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="explore" element={<Explore />} />
-          <Route path="create" element={<CreateDataset />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="landing" element={<LandingPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </>
+      {/* Application Routes */}
+      <Route element={<MainLayout role={role} />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/create" element={<CreateDataset />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
+
+      {/* Catch-all for any other route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

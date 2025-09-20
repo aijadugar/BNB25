@@ -7,7 +7,6 @@ const Sidebar = ({ role }) => {
     <>
       <NavLink to="/dashboard">Dashboard</NavLink>
       <NavLink to="/explore">Explore</NavLink>
-      <NavLink to="/settings">Settings</NavLink>
     </>
   );
 
@@ -15,7 +14,6 @@ const Sidebar = ({ role }) => {
     <>
       <NavLink to="/dashboard">Dashboard</NavLink>
       <NavLink to="/create">Create</NavLink>
-      <NavLink to="/settings">Settings</NavLink>
     </>
   );
 

@@ -8,7 +8,6 @@ import MainLayout from './components/MainLayout';
 // Page Components
 import LandingPage from './pages/landingpage';
 import Dashboard from './pages/shared/Dashboard';
-import Settings from './pages/shared/Settings';
 import CreateDataset from './pages/contributor/CreateDataset';
 import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
@@ -34,20 +33,24 @@ function App() {
     navigate('/dashboard');
   };
 
+  // Add this function to handle the logout action
+  const handleLogout = () => {
+    // In a real app, you would clear authentication tokens here
+    navigate('/');
+  };
+
   return (
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage onRoleSelect={handleRoleSelect} />} />
-      {/* Pass the login handler to the login pages */}
       <Route path="/login" element={<LoginPage onLoginSuccess={() => handleLoginSuccess('contributor')} />} />
       <Route path="/developer-login" element={<DeveloperLoginPage onLoginSuccess={() => handleLoginSuccess('developer')} />} />
 
-      {/* Application Routes */}
-      <Route element={<MainLayout role={role} />}>
+      {/* Pass the handleLogout function to the MainLayout */}
+      <Route element={<MainLayout role={role} onLogout={handleLogout} />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/create" element={<CreateDataset />} />
-        <Route path="/settings" element={<Settings />} />
       </Route>
 
       {/* Catch-all for any other route */}

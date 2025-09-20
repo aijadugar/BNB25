@@ -11,6 +11,7 @@ import Settings from './pages/shared/Settings';
 import CreateDataset from './pages/contributor/CreateDataset';
 import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
+import LandingPage from './pages/landingpage';
 
 function App() {
   const [role, setRole] = useState('contributor');
@@ -43,6 +44,7 @@ function App() {
           <Route path="explore" element={<Explore />} />
           <Route path="create" element={<CreateDataset />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="landing" element={<LandingPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

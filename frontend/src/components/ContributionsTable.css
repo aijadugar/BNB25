@@ -1,0 +1,47 @@
+.contributions-section {
+  background-color: #121e1e;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.contributions-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.2rem;
+}
+
+.contributions-table .table-header,
+.contributions-table .table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+  gap: 15px;
+  padding: 15px 10px;
+  border-bottom: 1px solid #2a3a3a;
+}
+
+.contributions-table .table-header {
+  color: #a0a0a0;
+  font-weight: bold;
+}
+
+.contributions-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.royalties {
+  color: #40e0d0;
+  font-weight: bold;
+}
+
+.no-contributions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #a0a0a0;
+  border: 2px dashed #2a3a3a;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.no-contributions p {
+  margin: 5px 0;
+  font-size: 1rem;
+}

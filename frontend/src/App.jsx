@@ -12,25 +12,35 @@ import Settings from './pages/shared/Settings';
 import CreateDataset from './pages/contributor/CreateDataset';
 import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
+import LoginPage from './pages/loginpage';
+import DeveloperLoginPage from './pages/DeveloperLoginPage'; // Import the new developer login page
 
 function App() {
-  const [role, setRole] = useState('contributor'); // Default role
+  const [role, setRole] = useState('contributor');
   const navigate = useNavigate();
 
-  // This function will be called from the landing page
+  // Navigates from landing page to the correct login page
   const handleRoleSelect = (selectedRole) => {
-    setRole(selectedRole);
     if (selectedRole === 'contributor') {
-      navigate('/create'); // Navigate to the contributor's starting page
+      navigate('/login');
     } else if (selectedRole === 'developer') {
-      navigate('/explore'); // Navigate to the developer's starting page
+      navigate('/developer-login');
     }
+  };
+
+  // Sets the role and navigates to the dashboard after a successful login/signup
+  const handleLoginSuccess = (loggedInRole) => {
+    setRole(loggedInRole);
+    navigate('/dashboard');
   };
 
   return (
     <Routes>
-      {/* Pass the role selection handler to the LandingPage */}
+      {/* Public Routes */}
       <Route path="/" element={<LandingPage onRoleSelect={handleRoleSelect} />} />
+      {/* Pass the login handler to the login pages */}
+      <Route path="/login" element={<LoginPage onLoginSuccess={() => handleLoginSuccess('contributor')} />} />
+      <Route path="/developer-login" element={<DeveloperLoginPage onLoginSuccess={() => handleLoginSuccess('developer')} />} />
 
       {/* Application Routes */}
       <Route element={<MainLayout role={role} />}>

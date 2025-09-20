@@ -18,6 +18,7 @@ const LandingPage = ({ onRoleSelect }) => (
         <Link to="/docs" className="nav-link">Resources</Link>
         <Link to="/community" className="nav-link">Community</Link>
       </div>
+      {/* The nav-actions section with the "Sign in" button has been removed */}
     </nav>
 
     {/* Hero Section */}

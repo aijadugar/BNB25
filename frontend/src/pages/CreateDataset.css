@@ -1,0 +1,135 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: #182825;
+}
+
+.sidebar {
+  width: 260px;
+  background: #14221f;
+  color: #fff;
+  padding: 32px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sidebar-nav a {
+  padding: 16px 32px;
+  margin-bottom: 8px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.sidebar-nav a.active,
+.sidebar-nav a:hover {
+  background: #21443b;
+  color: #1de9b6;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0 32px;
+}
+
+.profile-menu {
+  display: flex;
+  align-items: center;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #1de9b6;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.create-dataset-section {
+  padding: 32px;
+}
+
+.create-dataset-container {
+  background: #1c2b28;
+  color: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.upload-dataset-form label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.upload-dataset-form input,
+.upload-dataset-form select,
+.upload-dataset-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 12px;
+  background: #22332f;
+  color: #fff;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.file-upload-box {
+  border: 2px dashed #1de9b6;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: #22332f;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1de9b6;
+  color: #14221f;
+  border: none;
+  border-radius: 24px;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 18px;
+  cursor: pointer;
+}

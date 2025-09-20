@@ -50,7 +50,7 @@ const LoginPage = ({ onLoginSuccess }) => {
           <Link to="/community" className="login-nav-link">Community</Link>
           <Link to="/support" className="login-nav-link">Support</Link>
         </div>
-        <Link to="/login" className="login-signin-btn">Sign in</Link>
+        {/* The "Sign in" button has been removed from the navbar */}
       </nav>
 
       {/* Centered Login Box */}

@@ -1,0 +1,120 @@
+.purchases-section {
+  background-color: #121e1e;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.purchases-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.2rem;
+}
+
+.purchases-table .table-header,
+.purchases-table .table-row {
+  display: grid;
+  /* Adjusted for 4 columns */
+  grid-template-columns: 1fr 1fr 3fr 1fr;
+  gap: 15px;
+  padding: 15px 10px;
+  border-bottom: 1px solid #2a3a3a;
+  align-items: center;
+}
+
+.purchases-table .table-header {
+  color: #a0a0a0;
+  font-weight: bold;
+}
+
+.purchases-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.hash-cell {
+  color: #a0a0a0;
+  font-family: monospace;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.height-cell {
+  color: #40e0d0;
+  font-weight: bold;
+}
+
+.developer-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.activity-section {
+  background-color: #121e1e;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.activity-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.activity-table .table-header,
+.activity-table .table-row {
+  display: grid;
+  grid-template-columns: 3fr 1.5fr 1fr 1fr 1fr;
+  gap: 15px;
+  padding: 15px 10px;
+  border-bottom: 1px solid #2a3a3a;
+  align-items: center;
+}
+
+.activity-table .table-header {
+  color: #a0a0a0;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.activity-table .table-row {
+  color: #e0e0e0;
+}
+
+.activity-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.status-badge.status-active {
+  background-color: rgba(64, 224, 208, 0.1);
+  color: #40e0d0;
+}
+
+.status-badge.status-expired {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+}
+
+.action-link {
+  color: #40e0d0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}

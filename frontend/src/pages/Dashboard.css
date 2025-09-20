@@ -1,0 +1,141 @@
+/* This reset should be in your global CSS file (e.g., App.css), not here. */
+/* 
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+*/
+
+.dashboard-container {
+  display: flex;
+  background-color: #1a2a2a;
+  color: #e0e0e0;
+  font-family: sans-serif;
+  min-height: 100vh;
+  width: 100%; /* Add this to make the container fill the width */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #121e1e;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  color: #ffffff;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.sidebar-nav a {
+  color: #a0a0a0;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-nav a:hover {
+  background-color: #2a3a3a;
+}
+
+.sidebar-nav a.active {
+  background-color: #254a4a;
+  color: #40e0d0;
+}
+
+.upgrade-box {
+  background-color: #254a4a;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.upgrade-box h4 {
+  margin: 0 0 5px 0;
+  color: #ffffff;
+}
+
+.upgrade-box p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #2a3a3a;
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #40e0d0;
+}
+
+.contributions-section {
+  background-color: #121e1e;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.contributions-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.2rem;
+}
+
+.contributions-table .table-header,
+.contributions-table .table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+  gap: 15px;
+  padding: 15px 10px;
+  border-bottom: 1px solid #2a3a3a;
+}
+
+.contributions-table .table-header {
+  color: #a0a0a0;
+  font-weight: bold;
+}
+
+.contributions-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.royalties {
+  color: #40e0d0;
+  font-weight: bold;
+}

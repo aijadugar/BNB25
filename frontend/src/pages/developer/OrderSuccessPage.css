@@ -1,0 +1,131 @@
+.order-success-root {
+  background: #182825;
+  color: #fff;
+  min-height: 100vh;
+  font-family: 'Inter', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 48px;
+}
+
+.order-success-icon {
+  color: #1de9b6;
+  font-size: 3.5em;
+  margin-bottom: 18px;
+}
+
+.order-success-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.order-success-subtitle {
+  color: #b0bec5;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.order-success-card {
+  background: #1c2b28;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 32px;
+  padding: 28px 28px 18px 28px;
+  border: 1.5px solid #22332f;
+}
+
+.order-success-card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.order-success-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.order-success-label {
+  color: #b0bec5;
+  font-size: 1em;
+  margin-right: 8px;
+  display: block;
+}
+
+.order-success-value {
+  color: #fff;
+  font-size: 1em;
+  font-weight: 500;
+  display: block;
+  margin-top: 2px;
+}
+
+.order-success-value.bold {
+  font-weight: bold;
+}
+
+.order-success-value.mono {
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  word-break: break-all;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.order-success-copy {
+  color: #1de9b6;
+  cursor: pointer;
+  font-size: 1em;
+  margin-left: 6px;
+  transition: color 0.2s;
+}
+
+.order-success-copy:hover {
+  color: #13c8a3;
+}
+
+.order-success-download-btn {
+  background: #1de9b6;
+  color: #14221f;
+  padding: 14px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-top: 18px;
+  width: 100%;
+  max-width: 540px;
+  font-size: 1.1em;
+  transition: background 0.2s;
+}
+
+.order-success-download-btn:hover {
+  background: #13c8a3;
+}
+
+.order-success-back-btn {
+  background: none;
+  color: #1de9b6;
+  border: 2px solid #1de9b6;
+  padding: 14px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 16px;
+  width: 100%;
+  max-width: 540px;
+  font-size: 1.1em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.order-success-back-btn:hover {
+  background: #1de9b6;
+  color: #14221f;
+}

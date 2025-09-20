@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PreviewModal from './PreviewModal'; // Import the modal
 import './DatasetCard.css';
+
 
 // Using a placeholder image URL
 const placeholderImageUrl = 'https://via.placeholder.com/150x100.png?text=Data+Viz';
@@ -25,7 +27,7 @@ const previewData = {
 
 const DatasetCard = ({ dataset }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+const navigate = useNavigate();
   const handlePreviewClick = () => {
     setIsModalOpen(true);
   };
@@ -50,7 +52,12 @@ const DatasetCard = ({ dataset }) => {
         </div>
         <div className="dataset-actions">
           <button className="btn-preview" onClick={handlePreviewClick}>Preview</button>
-          <button className="btn-access">Pay & Access</button>
+          <button
+  className="btn-access"
+  onClick={() => navigate('/developer/payment')}
+>
+  Pay & Access
+</button>
         </div>
       </div>
       {isModalOpen && <PreviewModal data={previewData} onClose={handleCloseModal} />}

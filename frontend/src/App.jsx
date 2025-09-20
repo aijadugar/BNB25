@@ -13,6 +13,8 @@ import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/loginpage';
 import DeveloperLoginPage from './pages/DeveloperLoginPage'; // Import the new developer login page
+import Paymentpage from './pages/developer/Paymentpage'; // Import Paymentpage
+import OrderSuccessPage from './pages/developer/OrderSuccessPage';
 
 function App() {
   const [role, setRole] = useState('contributor');
@@ -52,7 +54,8 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/create" element={<CreateDataset />} />
       </Route>
-
+      <Route path="/developer/payment" element={<Paymentpage />} />
+      <Route path="/developer/order-success" element={<OrderSuccessPage />} />
       {/* Catch-all for any other route */}
       <Route path="*" element={<NotFound />} />
     </Routes>

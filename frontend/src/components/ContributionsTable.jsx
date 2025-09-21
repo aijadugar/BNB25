@@ -1,47 +1,77 @@
-import React from 'react';
-import './ContributionsTable.css';
+import React, { useState } from "react";
+import "./ContributionsTable.css";
 
-const contributions = [
-  { id: '#12345', name: 'Financial Data', category: 'Finance', cid: 'QmWx123...', royalties: '$500.00' },
-  { id: '#67890', name: 'Medical Records', category: 'Healthcare', cid: 'QmYt456...', royalties: '$750.00' },
-  { id: '#11223', name: 'Retail Sales Data', category: 'Retail', cid: 'QmZp789...', royalties: '$300.00' },
-  { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00' },
-  { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00' },
-];
-// To test the empty state, comment the line above and uncomment the line below
-// const contributions = [];
+const ContributorDashboard = () => {
+  // Dummy state (replace later with backend API data)
+  const [stats] = useState({
+    totalEarnings: "$1,250.00",
+    datasetsContributed: 42,
+    walletBalance: "$875.00",
+  });
 
-const ContributionsTable = () => {
+  const [contributions] = useState([
+    { poolId: "#12345", cid: "QmXw...123", txHash: "0xabc...def", blockHeight: 123456 },
+    { poolId: "#67890", cid: "QmYz...456", txHash: "0xghi...k1", blockHeight: 654321 },
+    { poolId: "#11223", cid: "QmSt...789", txHash: "0xjmo...pqr", blockHeight: 987654 },
+    { poolId: "#44556", cid: "QmUv...012", txHash: "0xstu...wx", blockHeight: 246810 },
+    { poolId: "#77889", cid: "QmAb...345", txHash: "0xvza...bcd", blockHeight: 135792 },
+  ]);
+
+  const handleWithdraw = () => {
+    console.log("Withdraw initiated...");
+    alert("Withdraw request sent!");
+  };
+
   return (
-    <section className="contributions-section">
-      <h3>My Contributions</h3>
-      {contributions.length > 0 ? (
+    <div className="contributor-dashboard">
+      <h2>Contributor Dashboard</h2>
+      <p className="subtext">
+        Welcome back, Alex! Here's an overview of your contributions and earnings.
+      </p>
+
+      {/* Stats Section */}
+      <div className="stats-cards">
+        <div className="stat-card">
+          <h4>Total Earnings</h4>
+          <p className="value">{stats.totalEarnings}</p>
+          <p className="change">+15% from last month</p>
+        </div>
+        <div className="stat-card">
+          <h4>Datasets Contributed</h4>
+          <p className="value">{stats.datasetsContributed}</p>
+          <p className="change">+5 from last month</p>
+        </div>
+        <div className="stat-card">
+          <h4>Contributor Wallet</h4>
+          <p className="value">{stats.walletBalance}</p>
+          <button className="withdraw-btn" onClick={handleWithdraw}>
+            Withdraw
+          </button>
+        </div>
+      </div>
+
+      {/* Contributions Table */}
+      <div className="contributions-section">
+        <h3>My Contributed Data Pools</h3>
         <div className="contributions-table">
           <div className="table-header">
             <div>Pool ID</div>
-            <div>Dataset Name</div>
-            <div>Category</div>
-            <div>CID</div>
-            <div>Royalties Earned</div>
+            <div>CID(s)</div>
+            <div>Transaction Hash</div>
+            <div>Block Height</div>
           </div>
-          {contributions.map((item) => (
-            <div className="table-row" key={item.id}>
-              <div>{item.id}</div>
-              <div>{item.name}</div>
-              <div>{item.category}</div>
+          {contributions.map((item, idx) => (
+            <div className="table-row" key={idx}>
+              <div>{item.poolId}</div>
               <div>{item.cid}</div>
-              <div className="royalties">{item.royalties}</div>
+              <div>{item.txHash}</div>
+              <div>{item.blockHeight}</div>
             </div>
           ))}
         </div>
-      ) : (
-        <div className="no-contributions">
-          <p>You haven't made any contributions yet.</p>
-          <p>Upload a dataset to start earning royalties!</p>
-        </div>
-      )}
-    </section>
+      </div>
+    </div>
   );
 };
 
-export default ContributionsTable;
+export default ContributorDashboard;

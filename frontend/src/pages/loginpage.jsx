@@ -1,39 +1,40 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./loginpage.css";
 
-// Accept the onLoginSuccess function as a prop
 const LoginPage = ({ onLoginSuccess }) => {
   const [activeTab, setActiveTab] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically have validation and an API call.
-    // On success, you call the function passed from App.jsx.
-    onLoginSuccess();
+    try {
+      const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailValue, // get from input state
+          password: passwordValue, // get from input state
+        }),
+      });
+  
+      const data = await res.json();
+      if (data.success) {
+        // Pass walletId to parent
+        onLoginSuccess(data.walletId);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  const loginForm = (
-    <>
-      <label className="login-label">Email</label>
-      <input type="email" className="login-input" placeholder="Email" />
-      <label className="login-label">Password</label>
-      <input type="password" className="login-input" placeholder="Password" />
-      <button type="submit" className="login-submit-btn">Login</button>
-    </>
-  );
-
-  const signupForm = (
-    <>
-      <label className="login-label">Full Name</label>
-      <input type="text" className="login-input" placeholder="Enter your full name" />
-      <label className="login-label">Email</label>
-      <input type="email" className="login-input" placeholder="you@example.com" />
-      <label className="login-label">Password</label>
-      <input type="password" className="login-input" placeholder="Create a strong password" />
-      <button type="submit" className="login-submit-btn">Create Account</button>
-    </>
-  );
+  
 
   return (
     <div className="login-root">
@@ -50,7 +51,6 @@ const LoginPage = ({ onLoginSuccess }) => {
           <Link to="/community" className="login-nav-link">Community</Link>
           <Link to="/support" className="login-nav-link">Support</Link>
         </div>
-        {/* The "Sign in" button has been removed from the navbar */}
       </nav>
 
       {/* Centered Login Box */}
@@ -70,10 +70,70 @@ const LoginPage = ({ onLoginSuccess }) => {
             Signup
           </button>
         </div>
-        {/* Add the onSubmit handler to the form */}
+
         <form className="login-form" onSubmit={handleSubmit}>
-          {activeTab === "login" ? loginForm : signupForm}
+          {activeTab === "login" ? (
+            <>
+              <label className="login-label">Email</label>
+              <input
+                type="email"
+                className="login-input"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <label className="login-label">Password</label>
+              <input
+                type="password"
+                className="login-input"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button type="submit" className="login-submit-btn" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </>
+          ) : (
+            <>
+              <label className="login-label">Full Name</label>
+              <input
+                type="text"
+                className="login-input"
+                placeholder="Enter your full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
+              <label className="login-label">Email</label>
+              <input
+                type="email"
+                className="login-input"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <label className="login-label">Password</label>
+              <input
+                type="password"
+                className="login-input"
+                placeholder="Create a strong password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button type="submit" className="login-submit-btn" disabled={loading}>
+                {loading ? "Creating..." : "Create Account"}
+              </button>
+            </>
+          )}
         </form>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         {activeTab === "login" && (
           <Link to="/forgot" className="login-forgot-link">Forgot Password?</Link>
         )}

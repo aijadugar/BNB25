@@ -13,6 +13,7 @@ import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/loginpage';
 import DeveloperLoginPage from './pages/DeveloperLoginPage'; // Import the new developer login page
+import ContributorDashboard from './pages/contributor/ContributorDashboard'; // Import the new contributor dashboard
 
 function App() {
   const [role, setRole] = useState('contributor');
@@ -28,9 +29,10 @@ function App() {
   };
 
   // Sets the role and navigates to the dashboard after a successful login/signup
-  const handleLoginSuccess = (loggedInRole) => {
-    setRole(loggedInRole);
-    navigate('/dashboard');
+  const [walletId, setWalletId] = useState("");
+
+  const handleLoginSuccess = (wallet) => {
+    setWalletId(wallet);
   };
 
   // Add this function to handle the logout action
@@ -48,9 +50,11 @@ function App() {
 
       {/* Pass the handleLogout function to the MainLayout */}
       <Route element={<MainLayout role={role} onLogout={handleLogout} />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dev-dashboard" element={<Dashboard />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/create" element={<CreateDataset />} />
+        <Route path="/dashboard" element={<ContributorDashboard />} />
+
       </Route>
 
       {/* Catch-all for any other route */}

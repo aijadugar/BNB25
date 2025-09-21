@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ContributionsTable.css";
 
 const contributions = [
@@ -8,16 +8,31 @@ const contributions = [
   { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00' },
   { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00' },
 ];
-// To test the empty state, comment the line above and uncomment the line below
-// const contributions = [];
 
-const ContributionsTable = () => {
+// Example stats data
+const stats = {
+  totalEarnings: "$2,550.00",
+  datasetsContributed: 5,
+  walletBalance: "$1,200.00"
+};
+
+const handleWithdraw = () => {
+  alert("Withdraw functionality coming soon!");
+};
+
+const ContributionsTable = ({ walletId }) => {
   return (
     <div className="contributor-dashboard">
       <h2>Contributor Dashboard</h2>
       <p className="subtext">
         Welcome back, Alex! Here's an overview of your contributions and earnings.
       </p>
+      {/* Show walletId if present */}
+      {walletId && (
+        <div className="wallet-id-box">
+          <strong>Wallet ID:</strong> <span className="wallet-id">{walletId}</span>
+        </div>
+      )}
 
       {/* Stats Section */}
       <div className="stats-cards">
@@ -53,7 +68,9 @@ const ContributionsTable = () => {
           </div>
           {contributions.map((item, idx) => (
             <div className="table-row" key={idx}>
-              <div>{item.poolId}</div>
+              <div>{item.id}</div>
+              <div>{item.name}</div>
+              <div>{item.category}</div>
               <div>{item.cid}</div>
               <div className="royalties">{item.royalties}</div>
             </div>
@@ -64,4 +81,4 @@ const ContributionsTable = () => {
   );
 };
 
-export default ContributorDashboard;
+export default ContributionsTable;

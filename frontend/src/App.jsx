@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Import useEffect
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 
@@ -13,14 +13,30 @@ import NotFound from './pages/NotFound';
 import LoginPage from './pages/loginpage';
 import DeveloperLoginPage from './pages/DeveloperLoginPage';
 import ContributorDashboard from './pages/contributor/ContributorDashboard';
-import DeveloperDashboard from './pages/developer/DeveloperDashboard'; // Add this import
+import DeveloperDashboard from './pages/developer/DeveloperDashboard'; // Ensure this is imported
 
 function App() {
-  const [role, setRole] = useState('contributor');
-  const [walletId, setWalletId] = useState("");
+  // Initialize state from localStorage or default
+  const [role, setRole] = useState(localStorage.getItem('userRole') || 'contributor');
+  const [walletId, setWalletId] = useState(localStorage.getItem('walletId') || "");
   const navigate = useNavigate();
 
-  console.log("App.jsx - Current Role:", role);
+  console.log("App.jsx - Current Role:", role, "Current Wallet ID:", walletId);
+
+  // Effect to update localStorage when role or walletId changes
+  useEffect(() => {
+    if (role) {
+      localStorage.setItem('userRole', role);
+    } else {
+      localStorage.removeItem('userRole');
+    }
+    if (walletId) {
+      localStorage.setItem('walletId', walletId);
+    } else {
+      localStorage.removeItem('walletId');
+    }
+  }, [role, walletId]);
+
 
   const handleRoleSelect = (selectedRole) => {
     if (selectedRole === 'contributor') {
@@ -30,17 +46,18 @@ function App() {
     }
   };
 
-  // Accept walletId from login page
-  const handleLoginSuccess = (loggedInRole, receivedWalletId) => { // Renamed for clarity
+  const handleLoginSuccess = (loggedInRole, receivedWalletId) => {
     setRole(loggedInRole);
-    setWalletId(receivedWalletId); // Set the received walletId
-    console.log("App.jsx - Login Success, new role:", loggedInRole, "Wallet ID:", receivedWalletId); // Added walletId to log
+    setWalletId(receivedWalletId);
+    console.log("App.jsx - Login Success, new role:", loggedInRole, "Wallet ID:", receivedWalletId);
     navigate('/dashboard');
   };
 
   const handleLogout = () => {
-    setRole('contributor');
-    setWalletId(""); // Clear walletId on logout
+    setRole('contributor'); // Reset role
+    setWalletId(""); // Clear walletId
+    localStorage.removeItem('userRole'); // Clear from localStorage
+    localStorage.removeItem('walletId'); // Clear from localStorage
     navigate('/');
   };
 
@@ -57,7 +74,7 @@ function App() {
         path="/login"
         element={
           <LoginPage
-            onLoginSuccess={(wallet) => handleLoginSuccess('contributor', wallet)} // <-- Pass wallet here
+            onLoginSuccess={(wallet) => handleLoginSuccess('contributor', wallet)}
           />
         }
       />
@@ -65,7 +82,7 @@ function App() {
         path="/developer-login"
         element={
           <DeveloperLoginPage
-            onLoginSuccess={(wallet) => handleLoginSuccess('developer', wallet)} // <-- Pass wallet here
+            onLoginSuccess={(wallet) => handleLoginSuccess('developer', wallet)}
           />
         }
       />

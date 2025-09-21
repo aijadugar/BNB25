@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react'; // Added useEffect, useState
 import './ContributionsTable.css';
 
 // Placeholder data for demonstration. In a real app, this would be fetched.
-const demoContributions = [
-  { id: '#12345', name: 'Financial Data', category: 'Finance', cid: 'QmWx123...', royalties: '$500.00', ratings: '★★★★☆' },
-  { id: '#67890', name: 'Medical Records', category: 'Healthcare', cid: 'QmYt456...', royalties: '$750.00', ratings: '★★★★★' },
-  { id: '#11223', name: 'Retail Sales Data', category: 'Retail', cid: 'QmZp789...', royalties: '$300.00', ratings: '★★★☆☆' },
-  { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00', ratings: '★★★★☆' },
-  { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00', ratings: '★★★★★' },
-];
+const demoContributions = [];
 
 
 const ContributionsTable = ({ walletId }) => {

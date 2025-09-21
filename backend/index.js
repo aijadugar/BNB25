@@ -9,11 +9,13 @@ const buyRoutes = require("./routes/buyRoutes");
 const Pool = require("./models/Pool");
 const Users = require('./models/User'); // adjust path if needed
 const walletRoutes = require('./routes/wallet'); // adjust path if needed
+const withdrawRoutes = require('./controllers/withdrawController'); // adjust path if needed
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json()); // make sure body parsing is enabled
+app.use("/api/contributor", withdrawRoutes);
 
 // MongoDB connection
 mongoose.connect(

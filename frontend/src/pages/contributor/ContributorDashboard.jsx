@@ -13,9 +13,28 @@ const staticStats = {
 
 
 
-const handleWithdraw = () => {
-  alert("Withdraw functionality coming soon!");
+const handleWithdraw2 = async () => {
+  try {
+    const res = await fetch("http://localhost:5000/api/contributor/withdraw", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ wallet: walletId }) // replace with actual wallet
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(`Successfully withdrawn: $${data.withdrawn}`);
+      // fetchContributions();  <-- remove or replace with proper refresh
+    } else {
+      alert("Withdrawal failed: " + data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error processing withdrawal.");
+  }
 };
+
+
+
 
 const ContributorDashboard = ({ walletId: propWalletId }) => {
   const context = useOutletContext();
@@ -23,7 +42,29 @@ const ContributorDashboard = ({ walletId: propWalletId }) => {
   const onLogout = context && context.onLogout;
 
   const [walletBalance, setWalletBalance] = useState("$0.00");
-
+  const handleWithdraw = async (walletId) => {
+    if (!walletId) return;
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/contributor/withdraw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wallet: walletId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Successfully withdrawn: $${data.withdrawn}`);
+        // Optionally, refresh contributions to reset earnings display
+        fetchContributions();
+      } else {
+        alert("Withdrawal failed: " + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error processing withdrawal.");
+    }
+  };
+  
   // --- DEBUGGING LINE ---
   console.log("ContributorDashboard - Received walletId:", walletId);
 
@@ -86,9 +127,9 @@ const ContributorDashboard = ({ walletId: propWalletId }) => {
               ID: <span className="wallet-id-value">{walletId}</span>
             </p>
           )}
-          <button className="withdraw-btn" onClick={handleWithdraw}>
-            Withdraw
-          </button>
+          <button className="withdraw-btn" onClick={() => handleWithdraw(walletId)}>
+  Withdraw
+</button>
         </div>
       </div>
 

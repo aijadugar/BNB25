@@ -8,7 +8,7 @@ const poolRoutes = require("./routes/poolRoutes");
 const buyRoutes = require("./routes/buyRoutes");
 const Pool = require("./models/Pool");
 const Users = require('./models/User'); // adjust path if needed
-
+const walletRoutes = require('./routes/wallet'); // adjust path if needed
 
 const app = express();
 app.use(cors());
@@ -24,6 +24,7 @@ mongoose.connect(
     
 app.use("/api/buy", buyRoutes);
 app.use("/api/pool", poolRoutes);
+app.use('/api/wallet', walletRoutes);
 
 app.get("/api/pools/:poolId", async (req, res) => {
   try {
@@ -56,22 +57,35 @@ app.get("/api/pools/:poolId", async (req, res) => {
   }
 });
 
-app.get('/api/pool/purchases/:wallet', async (req, res) => {
-  const wallet = req.params.wallet;
+app.get('/api/wallet/:walletId', async (req, res) => {
+  const { walletId } = req.params;
 
   try {
-    // Fetch all purchases for this wallet
-    const purchases = await Purchase.find({ developerWallet: wallet }).lean();
+    const pools = await Pool.find({ "contributors.wallet": walletId }).lean();
 
-    // Fetch all pools (to get dataset info)
-    const pools = await Pool.find({}).lean();
+    const contributions = pools.map(pool => {
+      const contributor = pool.contributors.find(c => c.wallet === walletId);
+      return {
+        poolId: pool.poolId,
+        datasetName: pool.datasetName,
+        category: pool.category,
+        cid: contributor?.cid || "",
+        earnings: contributor?.earnings || 0
+      };
+    });
 
-    res.json({ success: true, purchases, pools });
+    // console.log('Backend contributions:', contributions); // debug
+
+    res.json({
+      success: true,
+      pools: contributions
+    });
   } catch (err) {
-    console.error('Failed to fetch purchases:', err);
-    res.status(500).json({ success: false, message: 'Failed to fetch purchases' });
+    console.error('Error fetching wallet contributions:', err);
+    res.status(500).json({ success: false, message: 'Error fetching wallet contributions' });
   }
 });
+
   
 app.get('/api/pools', async (req, res) => {
   try {

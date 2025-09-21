@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react'; // Added useEffect, useState
+import React, { useEffect, useState } from 'react';
 import './ContributionsTable.css';
-
-// Placeholder data for demonstration. In a real app, this would be fetched.
-const demoContributions = [];
-
 
 const ContributionsTable = ({ walletId }) => {
   const [contributions, setContributions] = useState([]);
@@ -13,8 +9,7 @@ const ContributionsTable = ({ walletId }) => {
   useEffect(() => {
     if (!walletId) {
       setLoading(false);
-      // If no walletId, use demo data for display purposes or show empty state
-      setContributions(demoContributions); // Using demo data if no walletId
+      setContributions([]);
       return;
     }
 
@@ -24,43 +19,26 @@ const ContributionsTable = ({ walletId }) => {
         setError('');
         console.log('Fetching contributions for wallet:', walletId);
 
-        const res = await fetch(`http://localhost:5000/api/pool/purchases/${walletId}`);
+        // Call backend API to get pools by walletId
+        const res = await fetch(`http://localhost:5000/api/wallet/${walletId}/pools`);
         const data = await res.json();
+        console.log('Response data:', data);
 
         if (data.success && data.pools) {
-          const formatted = [];
-          const purchases = data.purchases || [];
-
-          data.pools.forEach((pool) => {
-            const contributor = pool.contributors.find(c => c.wallet === walletId);
-            if (contributor) {
-              formatted.push({
-                id: pool.poolId,
-                name: pool.datasetName,
-                category: pool.category,
-                cid: contributor.cid,
-                royalties: `$${contributor.earnings || 0}`,
-                ratings: "★★★★☆"
-              });
-            }
+          const formatted = data.pools.map(pool => {
+            // Use optional chaining and default to empty array
+            const contributor = (pool.contributors || []).find(c => c.wallet === walletId);
+          
+            return {
+              id: pool.poolId || 'N/A',
+              name: pool.datasetName || 'N/A',
+              category: pool.category || 'N/A',
+              cid: contributor?.cid || 'N/A',
+              royalties: `$${contributor?.earnings || 0}`,
+              ratings: pool.ratings || "★★★★☆",
+            };
           });
-
-          purchases.forEach((purchase) => {
-            const pool = data.pools.find(p => p.poolId === purchase.poolId);
-            if (pool) {
-              const contributor = pool.contributors.find(c => c.wallet === walletId);
-              if (contributor && !formatted.some(f => f.id === pool.poolId)) {
-                formatted.push({
-                  id: pool.poolId,
-                  name: pool.datasetName,
-                  category: pool.category,
-                  cid: contributor.cid,
-                  royalties: `$${contributor.earnings || 0}`,
-                  ratings: "★★★★☆"
-                });
-              }
-            }
-          });
+          
 
           setContributions(formatted);
         } else {
@@ -75,6 +53,11 @@ const ContributionsTable = ({ walletId }) => {
     };
 
     fetchContributions();
+
+    // Optional: poll every 10 seconds to auto-refresh new uploads
+    const interval = setInterval(fetchContributions, 10000);
+    return () => clearInterval(interval);
+
   }, [walletId]);
 
   if (loading) return <p>Loading contributions...</p>;

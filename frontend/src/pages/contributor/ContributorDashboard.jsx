@@ -116,16 +116,71 @@
 // };
 
 // export default ContributionsTable;
-import React from 'react';
-import ContributionsTable from './ContributionsTable';
+import React, { useState, useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import DashboardHeader from '../../components/DashboardHeader';
+import ContributionsTable from '../../components/ContributionsTable';
+import './ContributorDashboard.css';
 
-const ContributorDashboard = ({ walletId }) => {
+// Placeholder stats data. In a real app, these would be fetched from an API.
+const staticStats = {
+  totalEarnings: "$2,550.00",
+  datasetsContributed: 5,
+};
+
+const handleWithdraw = () => {
+  alert("Withdraw functionality coming soon!");
+};
+
+const ContributorDashboard = ({ walletId: propWalletId }) => {
+  const context = useOutletContext();
+  const walletId = propWalletId || (context && context.walletId);
+  const onLogout = context && context.onLogout;
+
+  // State for dynamic wallet balance, potentially fetched from an API
+  const [walletBalance, setWalletBalance] = useState("$0.00"); // Initialize with a default
+
+  // --- DEBUGGING LINE ---
+  console.log("ContributorDashboard - Received walletId:", walletId);
+
+  useEffect(() => {
+    if (walletId) {
+      // In a real application, you would fetch the actual wallet balance here
+      // For now, using a static value or prop if available
+      setWalletBalance("$1,200.00"); // Using a static value for demonstration
+    } else {
+      setWalletBalance("$0.00"); // Reset if no walletId
+    }
+  }, [walletId]);
+
+
   return (
-    <div>
-      <h2>Welcome!</h2>
-      <p>Your wallet ID: {walletId}</p>
-      <ContributionsTable walletId={walletId} />
-    </div>
+    <>
+      <DashboardHeader title="Contributor Dashboard" onLogout={onLogout} />
+      <div className="stats-cards">
+        <div className="stat-card">
+          <h4>Total Earnings</h4>
+          <p className="value">{staticStats.totalEarnings}</p>
+          <p className="change">+15% from last month</p>
+        </div>
+        <div className="stat-card">
+          <h4>Datasets Contributed</h4>
+          <p className="value">{staticStats.datasetsContributed}</p>
+          <p className="change">+5 from last month</p>
+        </div>
+        <div className="stat-card">
+          <h4>Contributor Wallet</h4>
+          <p className="value">{walletBalance}</p> {/* Display dynamic/fetched balance */}
+          {walletId && ( // This conditional rendering requires walletId to be truthy
+            <p className="wallet-id-display">
+              ID: <span className="wallet-id-value">{walletId}</span>
+            </p>
+          )}
+          <button className="withdraw-btn" onClick={handleWithdraw}>Withdraw</button>
+        </div>
+      </div>
+      <ContributionsTable walletId={walletId} /> {/* Pass walletId to the table */}
+    </>
   );
 };
 

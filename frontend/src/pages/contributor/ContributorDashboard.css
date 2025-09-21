@@ -46,3 +46,90 @@
   border: 2px dashed #2a3a3a;
   border-radius: 12px;
 }
+
+.stats-cards {
+  display: flex; /* This is crucial for side-by-side layout */
+  gap: 20px; /* Adds space between the cards */
+  margin-bottom: 24px;
+  flex-wrap: wrap; /* Allows cards to wrap to the next line on smaller screens */
+  justify-content: space-between; /* Distributes space if cards don't fill the row */
+}
+
+.stat-card {
+  background-color: #121e1e;
+  padding: 25px;
+  border-radius: 12px;
+  flex: 1; /* Allows cards to grow and shrink */
+  min-width: 220px; /* Ensures cards don't get too small */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.stat-card h4 {
+  color: #a0a0a0;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.stat-card .value {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.stat-card .change {
+  color: #40e0d0;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.wallet-id-display {
+  font-size: 0.85rem;
+  color: #b0bec5; /* Lighter color for label */
+  margin-top: 10px;
+  word-break: break-all; /* Ensures long IDs wrap */
+}
+
+.wallet-id-value {
+  font-family: monospace;
+  color: #40e0d0; /* Highlight color for the ID itself */
+  font-weight: bold;
+}
+
+.withdraw-btn {
+  margin-top: 10px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #254a4a;
+  color: #40e0d0;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.withdraw-btn:hover {
+  background: #356a6a;
+}
+
+/* Remove these if they exist, as the wallet-info-box is gone */
+/*
+.wallet-info-box {
+  display: flex;
+  gap: 40px;
+  background: #182825;
+  color: #40e0d0;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  align-items: center;
+}
+.wallet-id, .wallet-balance {
+  font-family: monospace;
+  color: #fff;
+  margin-left: 8px;
+}
+*/
+
+/* ...existing .contributions-section and table styles... */

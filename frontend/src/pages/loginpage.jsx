@@ -13,25 +13,19 @@ const LoginPage = ({ onLoginSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: emailValue, // get from input state
-          password: passwordValue, // get from input state
-        }),
-      });
-  
-      const data = await res.json();
-      if (data.success) {
-        // Pass walletId to parent
-        onLoginSuccess(data.walletId);
+      const res = await axios.post("http://localhost:5000/api/login", { email, password });
+      if (res.data.success) {
+        onLoginSuccess(res.data.walletId); // Pass walletId to App
       } else {
-        alert(data.message);
+        setError(res.data.message || "Login failed");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      setError("Login error");
+    } finally {
+      setLoading(false);
     }
   };
   

@@ -12,14 +12,14 @@ import CreateDataset from './pages/contributor/CreateDataset';
 import Explore from './pages/developer/Explore';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/loginpage';
-import DeveloperLoginPage from './pages/DeveloperLoginPage'; // Import the new developer login page
-import ContributorDashboard from './pages/contributor/ContributorDashboard'; // Import the new contributor dashboard
+import DeveloperLoginPage from './pages/DeveloperLoginPage';
+import ContributorDashboard from './pages/contributor/ContributorDashboard';
 
 function App() {
   const [role, setRole] = useState('contributor');
+  const [walletId, setWalletId] = useState("");
   const navigate = useNavigate();
 
-  // Navigates from landing page to the correct login page
   const handleRoleSelect = (selectedRole) => {
     if (selectedRole === 'contributor') {
       navigate('/login');
@@ -28,33 +28,47 @@ function App() {
     }
   };
 
-  // Sets the role and navigates to the dashboard after a successful login/signup
-  const [walletId, setWalletId] = useState("");
-
-  const handleLoginSuccess = (wallet) => {
-    setWalletId(wallet);
+  // Accept walletId from login page
+  const handleLoginSuccess = (loggedInRole, walletId) => {
+    setRole(loggedInRole);
+    setWalletId(walletId);
+    navigate('/dashboard');
   };
 
-  // Add this function to handle the logout action
   const handleLogout = () => {
-    // In a real app, you would clear authentication tokens here
+    setRole('contributor');
     navigate('/');
   };
+
+  const DashboardSelector = () =>
+    role === 'developer' ? <Dashboard /> : <ContributorDashboard />;
 
   return (
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage onRoleSelect={handleRoleSelect} />} />
-      <Route path="/login" element={<LoginPage onLoginSuccess={() => handleLoginSuccess('contributor')} />} />
-      <Route path="/developer-login" element={<DeveloperLoginPage onLoginSuccess={() => handleLoginSuccess('developer')} />} />
+      <Route
+        path="/login"
+        element={
+          <LoginPage
+            onLoginSuccess={() => handleLoginSuccess('contributor')}
+          />
+        }
+      />
+      <Route
+        path="/developer-login"
+        element={
+          <DeveloperLoginPage
+            onLoginSuccess={() => handleLoginSuccess('developer')}
+          />
+        }
+      />
 
-      {/* Pass the handleLogout function to the MainLayout */}
+      {/* Main Application Routes */}
       <Route element={<MainLayout role={role} onLogout={handleLogout} />}>
-        <Route path="/dev-dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardSelector />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/create" element={<CreateDataset />} />
-        <Route path="/dashboard" element={<ContributorDashboard />} />
-
       </Route>
 
       {/* Catch-all for any other route */}

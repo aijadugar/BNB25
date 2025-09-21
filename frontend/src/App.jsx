@@ -47,8 +47,14 @@ function App() {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage onRoleSelect={handleRoleSelect} />} />
-      <Route path="/login" element={<LoginPage onLoginSuccess={setWalletId} />} />
-      <Route path="/dashboard" element={<ContributorDashboard walletId={walletId} />} />
+      <Route
+        path="/login"
+        element={
+          <LoginPage
+            onLoginSuccess={() => handleLoginSuccess('contributor')}
+          />
+        }
+      />
       <Route
         path="/developer-login"
         element={

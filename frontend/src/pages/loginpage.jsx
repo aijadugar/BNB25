@@ -14,30 +14,16 @@ const LoginPage = ({ onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-  
+    setError("");
     try {
-      const res = await axios.post("http://localhost:5000/api/login", {
-        email,
-        password
-      });
-  
-      const data = res.data; // this contains {success, email, walletId}
-  
-      if (data.success) {
-        console.log("Logged in user walletId:", data.walletId);
-  
-        // 1. Pass walletId to parent
-        onLoginSuccess(data.walletId);
-  
-        // 2. Navigate to dashboard
-        navigate('/dashboard'); 
+      const res = await axios.post("http://localhost:5000/api/login", { email, password });
+      if (res.data.success) {
+        onLoginSuccess(res.data.walletId); // Pass walletId to App
       } else {
-        setError(data.message || "Login failed");
+        setError(res.data.message || "Login failed");
       }
-    } catch (err) {
-      console.error(err);
-      setError("Server error. Try again.");
+    } catch {
+      setError("Login error");
     } finally {
       setLoading(false);
     }

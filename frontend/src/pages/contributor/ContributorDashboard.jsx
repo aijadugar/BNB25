@@ -4,6 +4,15 @@ import DashboardHeader from '../../components/DashboardHeader';
 import ContributionsTable from '../../components/ContributionsTable';
 import './ContributorDashboard.css';
 
+// Placeholder stats data. In a real app, these would be fetched from an API.
+
+const staticStats = {
+  totalEarnings: "$2,550.00",
+  datasetsContributed: 5,
+};
+
+
+
 const handleWithdraw = () => {
   alert("Withdraw functionality coming soon!");
 };
@@ -13,75 +22,44 @@ const ContributorDashboard = ({ walletId: propWalletId }) => {
   const walletId = propWalletId || (context && context.walletId);
   const onLogout = context && context.onLogout;
 
-  // State for data and calculations
-  const [contributions, setContributions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [walletBalance, setWalletBalance] = useState("$0.00");
-  const [datasetsContributed, setDatasetsContributed] = useState(0);
 
   // --- DEBUGGING LINE ---
   console.log("ContributorDashboard - Received walletId:", walletId);
 
-  // 1. Fetch contributions data
   useEffect(() => {
     if (!walletId) {
-      setLoading(false);
-      setContributions([]);
+      setWalletBalance("$0.00");
       return;
     }
 
-    const fetchContributions = async () => {
+    const fetchWalletBalance = async () => {
       try {
-        setLoading(true);
-        setError('');
-        const res = await fetch(`http://localhost:5000/api/pool/purchases/${walletId}`);
+        const res = await fetch(`http://localhost:5000/api/wallet/${walletId}`);
+        
+        // Check if the response is ok before trying to parse JSON
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
         const data = await res.json();
 
-        if (data.success && data.pools) {
-          const formatted = data.pools
-            .map(pool => {
-              const contributor = pool.contributors.find(c => c.wallet === walletId);
-              return contributor ? {
-                id: pool.poolId,
-                name: pool.datasetName,
-                category: pool.category,
-                cid: contributor.cid,
-                royalties: contributor.earnings || 0, // Store as a number
-                ratings: "★★★★☆" // Placeholder
-              } : null;
-            })
-            .filter(Boolean); // Remove null entries
-
-          setContributions(formatted);
+        // --- FIX: Check for success AND a valid balance property ---
+        if (data.success && (data.balance !== undefined && data.balance !== null)) {
+          // Ensure balance is a number and format it to two decimal places
+          setWalletBalance(`$${Number(data.balance).toFixed(2)}`);
         } else {
-          setContributions([]);
+          // If success is false or balance is missing, default to $0.00
+          setWalletBalance("$0.00");
         }
       } catch (err) {
-        console.error("Error fetching contributions:", err);
-        setError('Failed to fetch contributions.');
-      } finally {
-        setLoading(false);
+        console.error("Error fetching wallet balance:", err);
+        setWalletBalance("$0.00"); // Set to default on any error
       }
     };
 
-    fetchContributions();
+    fetchWalletBalance();
   }, [walletId]);
-
-  // 2. Calculate wallet balance and other stats when contributions data changes
-  useEffect(() => {
-    if (contributions.length > 0) {
-      const totalRoyalties = contributions.reduce((sum, contribution) => {
-        return sum + (contribution.royalties || 0);
-      }, 0);
-
-      setWalletBalance(`$${totalRoyalties.toFixed(2)}`);
-      setDatasetsContributed(contributions.length);
-    } else {
-      setWalletBalance("$0.00");
-      setDatasetsContributed(0);
-    }
-  }, [contributions]);
 
   return (
     <>
@@ -90,13 +68,13 @@ const ContributorDashboard = ({ walletId: propWalletId }) => {
       <div className="stats-cards">
         <div className="stat-card">
           <h4>Total Earnings</h4>
-          <p className="value">{walletBalance}</p> {/* Now dynamic */}
+          <p className="value">{staticStats.totalEarnings}</p>
           <p className="change">+15% from last month</p>
         </div>
 
         <div className="stat-card">
           <h4>Datasets Contributed</h4>
-          <p className="value">{datasetsContributed}</p> {/* Now dynamic */}
+          <p className="value">{staticStats.datasetsContributed}</p>
           <p className="change">+5 from last month</p>
         </div>
 
@@ -114,12 +92,8 @@ const ContributorDashboard = ({ walletId: propWalletId }) => {
         </div>
       </div>
 
-      {/* Pass data down to the table component */}
-      <ContributionsTable
-        contributions={contributions}
-        loading={loading}
-        error={error}
-      />
+      {/* Contributions Table */}
+      <ContributionsTable walletId={walletId} />
     </>
   );
 };

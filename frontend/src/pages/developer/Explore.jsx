@@ -92,4 +92,4 @@ const Explore = () => {
   );
 };
 
-export default DeveloperExplore;
+export default Explore;

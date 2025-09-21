@@ -1,115 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import DashboardHeader from "../../components/DashboardHeader";
-import "./Explore.css";
+import React from 'react';
+import { useOutletContext } from 'react-router-dom'; // Import hook
+import DashboardHeader from '../../components/DashboardHeader';
+import DatasetCard from '../../components/DatasetCard';
+import './Explore.css';
 
-const DeveloperExplore = () => {
-  const { onLogout } = useOutletContext();
-  const [pools, setPools] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+// Sample data for the datasets
+const sampleData = [
+  {
+    id: 1,
+    title: 'Corporate Bond Data Q1 2023',
+    category: 'Financial Data',
+    dataType: 'Structured',
+    size: '1.2 GB',
+    contributors: 25,
+    price: '500 SYN',
+  },
+  {
+    id: 2,
+    title: 'Clinical Trial Patient Demographics',
+    category: 'Healthcare Data',
+    dataType: 'Anonymized PII',
+    size: '800 MB',
+    contributors: 12,
+    price: '750 SYN',
+  },
+  {
+    id: 3,
+    title: 'E-commerce Product Reviews Analysis',
+    category: 'Retail Data',
+    dataType: 'Text',
+    size: '2.5 GB',
+    contributors: '150+',
+    price: '300 SYN',
+  },
+];
 
-  useEffect(() => {
-    const fetchPools = async () => {
-      try {
-        setLoading(true);
-        setError("");
-
-        // 1️⃣ Fetch all poolIds
-        const resPools = await fetch("http://localhost:5000/api/pools");
-        const dataPools = await resPools.json();
-        if (!dataPools.success) throw new Error("Failed to fetch pools");
-
-        const poolIds = dataPools.pools.map((p) => p.poolId);
-
-        // 2️⃣ Fetch each pool's dataset details
-        const poolDetailsPromises = poolIds.map(async (poolId) => {
-          const res = await fetch(`http://localhost:5000/api/pool/purchases/${poolId}`);
-          const data = await res.json();
-          const poolData = data.pools.find((p) => p.poolId === poolId);
-
-          return {
-            poolId,
-            datasetName: poolData?.datasetName || "Unknown Dataset",
-            category: poolData?.category || "Unknown",
-            type: poolData?.type || "Unknown",
-            totalSize: poolData?.totalSize || 0,
-            price: poolData?.price || 0,
-            description: poolData?.description || "No description available",
-            contributors: poolData?.contributors || [],
-          };
-        });
-
-        const poolDetails = await Promise.all(poolDetailsPromises);
-        setPools(poolDetails);
-      } catch (err) {
-        console.error("Error fetching pool data:", err);
-        setError("Failed to load pools.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPools();
-  }, []);
-
-  // Preview button handler
-  const handlePreview = async (poolId) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/pools/${poolId}`);
-      const data = await res.json();
-      if (!data.success) throw new Error("Preview fetch failed");
-
-      const randomTimestamp = Date.now() - Math.floor(Math.random() * 1000000000);
-      const randomTxHash =
-        Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15);
-      const randomHeight = Math.floor(Math.random() * 1000);
-
-      alert(
-        `Pool ID: ${poolId}\nCIDs: ${data.cids.join(
-          ", "
-        )}\nTimestamp: ${randomTimestamp}\nHash: ${randomTxHash}\nHeight: ${randomHeight}`
-      );
-    } catch (err) {
-      console.error(err);
-      alert("Failed to fetch pool preview.");
-    }
-  };
-
-  // Pay & Access button handler
-  const handlePayAndAccess = async (poolId) => {
-    try {
-      const res = await fetch("http://localhost:5000/api/buy/buy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          developerWallet: "cosmos3xyz", // Replace with logged-in dev wallet
-          poolId,
-          amount: 200, // Fixed or dynamic
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        alert(`Pool purchased successfully!
-Transaction Hash: ${data.tendermintResponse.result.deliver_tx.hash}
-Height: ${data.tendermintResponse.result.deliver_tx.height}
-
-Royalty Payouts:
-${data.royaltyResponses.map((r) => `${r.wallet}: $${r.payout}`).join("\n")}`);
-      } else {
-        alert(`Purchase failed: ${data.message}`);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error purchasing pool.");
-    }
-  };
-
-  if (loading) return <p>Loading pools...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+const Explore = () => {
+  const { onLogout } = useOutletContext(); // Get onLogout from context
 
   return (
     <>

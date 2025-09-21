@@ -74,3 +74,42 @@
 .btn-access:hover {
   background-color: #50f0e0;
 }
+
+.card-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.rating-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.star-rating {
+  display: flex;
+  gap: 5px;
+}
+
+.star-icon {
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.submit-rating-btn {
+  padding: 6px 12px; /* Made button smaller */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  background-color: #254a4a;
+  color: #40e0d0;
+}
+
+.submit-rating-btn:hover {
+  background-color: #356a6a;
+}

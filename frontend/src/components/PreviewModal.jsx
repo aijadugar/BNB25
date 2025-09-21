@@ -6,19 +6,17 @@ const PreviewModal = ({ data, onClose }) => {
 
   // Extract the important points from the JSON
   const importantData = {
-    Success: String(data.success),
-    Message: data.message,
-    'Pool ID': data.poolId,
-    CID: data.cid,
-    'Transaction Hash': data.tendermintResponse?.result?.hash,
-    'Block Height': data.tendermintResponse?.result?.height,
+    'Pool ID': data.poolID,
+    Contributors: data.contributors,
+    'Transaction Hash': data.tendermintResponse?.hash,
+    'Block Height': data.tendermintResponse?.height,
   };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Transaction Preview</h2>
+          <h2>Info & Transaction Preview</h2>
           <button className="close-button" onClick={onClose}>&times;</button>
         </div>
         <div className="modal-body">

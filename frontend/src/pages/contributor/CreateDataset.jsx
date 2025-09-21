@@ -124,6 +124,7 @@ function CreateDataset() {
                   <option>CSV</option>
                   <option>Image</option>
                   <option>Text</option>
+                  <option>Audio</option>
                 </select>
               </div>
               <div className="form-group">
@@ -157,8 +158,10 @@ function CreateDataset() {
               ) : (
                 <span>
                   <strong>Click to browse</strong> or drag and drop
-                  <br />
-                  PNG, JPG, CSV, etc.
+                  <br/>
+                  (ZIP, RAR, etc)
+                  <br/>
+                  Keep Your Dataset Consistent
                 </span>
               )}
             </div>

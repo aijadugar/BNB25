@@ -1,60 +1,49 @@
 import React, { useState } from 'react';
-import PreviewModal from './PreviewModal'; // Import the modal
+import { FaStar } from 'react-icons/fa';
+import PreviewModal from './PreviewModal';
 import './DatasetCard.css';
 
-// Using a placeholder image URL
-const placeholderImageUrl = 'https://via.placeholder.com/150x100.png?text=Data+Viz';
-
-// The sample JSON data for the preview
-const previewData = {
-    "success": true,
-    "message": "File uploaded and grouped successfully",
-    "poolId": "1758373074420",
-    "cid": "Qme0n3xttv",
-    "tendermintResponse": {
-        "jsonrpc": "2.0",
-        "id": -1,
-        "result": {
-            "check_tx": { "code": 0 },
-            "deliver_tx": { "code": 0 },
-            "hash": "BA54739723C3092C930CBBFB0872AA0419A7B019C802A52CAC5387B02307633F",
-            "height": "2105"
-        }
-    }
-};
-
 const DatasetCard = ({ dataset }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
-  const handlePreviewClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  // Assume dataset.rating is a number from 0 to 5
+  const rating = dataset.rating || 0;
 
   return (
-    <>
-      <div className="dataset-card">
-        <img src={placeholderImageUrl} alt={dataset.title} className="dataset-image" />
-        <div className="dataset-details">
-          <h3>{dataset.title}</h3>
-          <p className="meta-info">
-            Category: {dataset.category} | Data Type: {dataset.dataType}
-          </p>
-          <p className="meta-info">
-            Size: {dataset.size} | Contributors: {dataset.contributors}
-          </p>
-          <p className="price">Price: <span>{dataset.price}</span></p>
-        </div>
+    <div className="dataset-card">
+      <div className="dataset-image"></div>
+      <div className="dataset-details">
+        <h3>{dataset.title}</h3>
+        <p className="meta-info">{dataset.category} • {dataset.dataType} • {dataset.size}</p>
+        <p className="price">Price: <span>{dataset.price}</span></p>
+      </div>
+
+      <div className="card-actions-container">
         <div className="dataset-actions">
-          <button className="btn-preview" onClick={handlePreviewClick}>Preview</button>
+          <button className="btn-preview" onClick={() => setShowPreview(true)}>Preview</button>
           <button className="btn-access">Pay & Access</button>
         </div>
+
+        {/* Display-only star rating */}
+        <div className="rating-section">
+          <div className="star-rating">
+            {[...Array(5)].map((_, index) => (
+              <FaStar
+                key={index}
+                className="star-icon"
+                color={index < rating ? "#ffc107" : "#e4e5e9"}
+                size={20}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-      {isModalOpen && <PreviewModal data={previewData} onClose={handleCloseModal} />}
-    </>
+
+      {/* Preview Modal */}
+      {showPreview && (
+        <PreviewModal data={dataset} onClose={() => setShowPreview(false)} />
+      )}
+    </div>
   );
 };
 

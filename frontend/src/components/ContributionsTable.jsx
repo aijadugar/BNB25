@@ -1,63 +1,95 @@
-import React from "react";
-import "./ContributionsTable.css";
+import React, { useEffect, useState } from 'react'; // Added useEffect, useState
+import './ContributionsTable.css';
 
-const contributions = [
-  { id: '#12345', name: 'Financial Data', category: 'Finance', cid: 'QmWx123...', royalties: '$500.00' },
-  { id: '#67890', name: 'Medical Records', category: 'Healthcare', cid: 'QmYt456...', royalties: '$750.00' },
-  { id: '#11223', name: 'Retail Sales Data', category: 'Retail', cid: 'QmZp789...', royalties: '$300.00' },
-  { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00' },
-  { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00' },
+// Placeholder data for demonstration. In a real app, this would be fetched.
+const demoContributions = [
+  { id: '#12345', name: 'Financial Data', category: 'Finance', cid: 'QmWx123...', royalties: '$500.00', ratings: '★★★★☆' },
+  { id: '#67890', name: 'Medical Records', category: 'Healthcare', cid: 'QmYt456...', royalties: '$750.00', ratings: '★★★★★' },
+  { id: '#11223', name: 'Retail Sales Data', category: 'Retail', cid: 'QmZp789...', royalties: '$300.00', ratings: '★★★☆☆' },
+  { id: '#44556', name: 'Transportation Logs', category: 'Logistics', cid: 'QmAv812...', royalties: '$400.00', ratings: '★★★★☆' },
+  { id: '#77889', name: 'Energy Consumption', category: 'Energy', cid: 'QmBq345...', royalties: '$600.00', ratings: '★★★★★' },
 ];
 
-// Example stats data
-const stats = {
-  totalEarnings: "$2,550.00",
-  datasetsContributed: 5,
-  walletBalance: "$1,200.00"
-};
-
-const handleWithdraw = () => {
-  alert("Withdraw functionality coming soon!");
-};
 
 const ContributionsTable = ({ walletId }) => {
+  const [contributions, setContributions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!walletId) {
+      setLoading(false);
+      // If no walletId, use demo data for display purposes or show empty state
+      setContributions(demoContributions); // Using demo data if no walletId
+      return;
+    }
+
+    const fetchContributions = async () => {
+      try {
+        setLoading(true);
+        setError('');
+        console.log('Fetching contributions for wallet:', walletId);
+
+        const res = await fetch(`http://localhost:5000/api/pool/purchases/${walletId}`);
+        const data = await res.json();
+
+        if (data.success && data.pools) {
+          const formatted = [];
+          const purchases = data.purchases || [];
+
+          data.pools.forEach((pool) => {
+            const contributor = pool.contributors.find(c => c.wallet === walletId);
+            if (contributor) {
+              formatted.push({
+                id: pool.poolId,
+                name: pool.datasetName,
+                category: pool.category,
+                cid: contributor.cid,
+                royalties: `$${contributor.earnings || 0}`,
+                ratings: "★★★★☆"
+              });
+            }
+          });
+
+          purchases.forEach((purchase) => {
+            const pool = data.pools.find(p => p.poolId === purchase.poolId);
+            if (pool) {
+              const contributor = pool.contributors.find(c => c.wallet === walletId);
+              if (contributor && !formatted.some(f => f.id === pool.poolId)) {
+                formatted.push({
+                  id: pool.poolId,
+                  name: pool.datasetName,
+                  category: pool.category,
+                  cid: contributor.cid,
+                  royalties: `$${contributor.earnings || 0}`,
+                  ratings: "★★★★☆"
+                });
+              }
+            }
+          });
+
+          setContributions(formatted);
+        } else {
+          setContributions([]);
+        }
+      } catch (err) {
+        console.error('Error fetching contributions:', err);
+        setError('Failed to fetch contributions.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContributions();
+  }, [walletId]);
+
+  if (loading) return <p>Loading contributions...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
   return (
-    <div className="contributor-dashboard">
-      <h2>Contributor Dashboard</h2>
-      <p className="subtext">
-        Welcome back, Alex! Here's an overview of your contributions and earnings.
-      </p>
-      {/* Show walletId if present */}
-      {walletId && (
-        <div className="wallet-id-box">
-          <strong>Wallet ID:</strong> <span className="wallet-id">{walletId}</span>
-        </div>
-      )}
-
-      {/* Stats Section */}
-      <div className="stats-cards">
-        <div className="stat-card">
-          <h4>Total Earnings</h4>
-          <p className="value">{stats.totalEarnings}</p>
-          <p className="change">+15% from last month</p>
-        </div>
-        <div className="stat-card">
-          <h4>Datasets Contributed</h4>
-          <p className="value">{stats.datasetsContributed}</p>
-          <p className="change">+5 from last month</p>
-        </div>
-        <div className="stat-card">
-          <h4>Contributor Wallet</h4>
-          <p className="value">{stats.walletBalance}</p>
-          <button className="withdraw-btn" onClick={handleWithdraw}>
-            Withdraw
-          </button>
-        </div>
-      </div>
-
-      {/* Contributions Table */}
-      <div className="contributions-section">
-        <h3>My Contributed Data Pools</h3>
+    <section className="contributions-section">
+      <h3>My Contributed Data Pools</h3>
+      {contributions.length > 0 ? (
         <div className="contributions-table">
           <div className="table-header">
             <div>Pool ID</div>
@@ -65,19 +97,26 @@ const ContributionsTable = ({ walletId }) => {
             <div>Category</div>
             <div>CID</div>
             <div>Royalties Earned</div>
+            <div>Ratings</div>
           </div>
-          {contributions.map((item, idx) => (
-            <div className="table-row" key={idx}>
+          {contributions.map((item) => (
+            <div className="table-row" key={item.id}>
               <div>{item.id}</div>
               <div>{item.name}</div>
               <div>{item.category}</div>
               <div>{item.cid}</div>
               <div className="royalties">{item.royalties}</div>
+              <div className="ratings">{item.ratings}</div>
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      ) : (
+        <div className="no-contributions">
+          <p>You haven't made any contributions yet.</p>
+          <p>Upload a dataset to start earning royalties!</p>
+        </div>
+      )}
+    </section>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaDatabase, FaCoins, FaShieldAlt, FaFingerprint, FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
-import "./LandingPage.css";
+import "./landingpage.css";
 
 // Accept the onRoleSelect function as a prop
 const LandingPage = ({ onRoleSelect }) => (
